@@ -18,6 +18,8 @@ export async function POST(request: Request) {
       category?: string
       links?: string[]
       files?: string[]
+      hints?: string[]
+      points?: number
       author?: string
       flag?: string
     }
@@ -39,11 +41,20 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Неверная категория" }, { status: 400 })
     }
 
+    const points = Number(body.points)
+    if (!Number.isInteger(points) || points < 100 || points > 1000) {
+      return NextResponse.json(
+        { error: "Стоимость должна быть целым числом от 100 до 1000" },
+        { status: 400 },
+      )
+    }
+
     const links = (body.links ?? []).map((l) => l.trim()).filter(Boolean)
     const files = (body.files ?? []).map((f) => f.trim()).filter(Boolean)
+    const hints = (body.hints ?? []).map((h) => h.trim()).filter(Boolean)
 
     const task = await prisma.tasks.create({
-      data: { title, description, category, links, files, author, flag },
+      data: { title, description, category, links, files, hints, points, author, flag },
     })
 
     return NextResponse.json({ ok: true, id: task.id })
