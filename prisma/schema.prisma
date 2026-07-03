@@ -45,11 +45,20 @@ model Tasks {
   category    Category   @default(MISC)
   links       String[]
   files       String[]
+  hints       String[]
+  points      Int        @default(100)
   author      String
   flag        String
   createdAt   DateTime   @default(now())
   solves      Solves[]
   attempts    Attempts[]
+}
+
+model TaskFile {
+  id           Int      @id @default(autoincrement())
+  originalName String
+  path         String
+  createdAt    DateTime @default(now())
 }
 
 model Solves {
