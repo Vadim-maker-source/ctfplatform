@@ -37,7 +37,19 @@ export async function POST(
       return NextResponse.json({ error: "Вы уже решили этот таск" }, { status: 409 })
     }
 
-    if (body.flag.trim() !== task.flag) {
+    const submittedFlag = body.flag.trim()
+    const correct = submittedFlag === task.flag
+
+    await prisma.attempts.create({
+      data: {
+        taskId: id,
+        userId: session.user.id,
+        flag: submittedFlag,
+        correct,
+      },
+    })
+
+    if (!correct) {
       return NextResponse.json({ error: "Неверный флаг" }, { status: 400 })
     }
 

@@ -4,34 +4,75 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum Category {
+  WEB
+  CRYPTO
+  FORENSICS
+  PWN
+  REVERSE
+  STEGANOGRAPHY
+  OSINT
+  MISC
+  NETWORK
+  LINUX
+  UCUCUGA
 }
 
 model User {
-  id       String   @id @default(uuid())
-  name     String
-  username String   @unique
-  email    String   @unique
-  password String
-  solves   Solves[]
+  id        String     @id @default(uuid())
+  name      String
+  username  String     @unique
+  email     String     @unique
+  password  String
+  role      Role       @default(USER)
+  createdAt DateTime   @default(now())
+  solves    Solves[]
+  attempts  Attempts[]
 }
 
 model Tasks {
-  id          String   @id @default(uuid())
+  id          String     @id @default(uuid())
   title       String
   description String
+  category    Category   @default(MISC)
   links       String[]
   files       String[]
   author      String
   flag        String
+  createdAt   DateTime   @default(now())
   solves      Solves[]
+  attempts    Attempts[]
 }
 
 model Solves {
-  id     Int    @id @default(autoincrement())
-  taskId String
-  userId String
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  task   Tasks  @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  id        Int      @id @default(autoincrement())
+  taskId    String
+  userId    String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  task      Tasks    @relation(fields: [taskId], references: [id], onDelete: Cascade)
 
   @@unique([taskId, userId])
+}
+
+model Attempts {
+  id        Int      @id @default(autoincrement())
+  taskId    String
+  userId    String
+  flag      String
+  correct   Boolean
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  task      Tasks    @relation(fields: [taskId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([taskId])
 }
