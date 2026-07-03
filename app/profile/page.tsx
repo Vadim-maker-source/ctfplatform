@@ -69,7 +69,7 @@ export default async function ProfilePage() {
 
   return (
     <>
-      <SiteHeader username={user.username} />
+      <SiteHeader username={user.username} role={session.user.role} />
       <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-8">
         <Card>
           <CardHeader>

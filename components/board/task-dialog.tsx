@@ -128,12 +128,12 @@ export function TaskDialog({
         onOpenChange(open)
       }}
     >
-      <DialogContent className="max-w-lg">
+      <DialogContent className="sm:max-w-2xl">
         {task && (
           <>
             <DialogHeader>
               <div className="flex flex-wrap items-center gap-2">
-                <DialogTitle className="font-mono">{task.title}</DialogTitle>
+                <DialogTitle className="font-mono text-xl">{task.title}</DialogTitle>
                 <Badge variant="outline" className="font-mono">
                   <TrophyIcon className="size-3" />
                   {task.points}
@@ -161,11 +161,11 @@ export function TaskDialog({
               </TabsList>
 
               <TabsContent value="task" className="flex flex-col gap-3">
-                <p className="whitespace-pre-wrap text-sm text-muted-foreground text-pretty">
+                <p className="whitespace-pre-wrap text-base leading-relaxed text-muted-foreground text-pretty">
                   {task.description}
                 </p>
 
-                <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                <div className="flex items-center gap-3 text-sm text-muted-foreground">
                   <span>by {task.author}</span>
                   <span className="flex items-center gap-1">
                     <UsersIcon className="size-3" />
@@ -182,9 +182,9 @@ export function TaskDialog({
                           key={index}
                           type="button"
                           onClick={() => toggleHint(index)}
-                          className="flex items-start gap-2 rounded-md border border-border px-3 py-2 text-left text-sm transition-colors hover:border-primary/50"
+                          className="flex items-start gap-2 rounded-md border border-border px-3 py-2 text-left text-base transition-colors hover:border-primary/50"
                         >
-                          <LightbulbIcon className="mt-0.5 size-4 shrink-0 text-muted-foreground" />
+                          <LightbulbIcon className="mt-1 size-4 shrink-0 text-muted-foreground" />
                           {revealedHints.has(index) ? (
                             <span className="text-pretty">{hint}</span>
                           ) : (
@@ -208,7 +208,7 @@ export function TaskDialog({
                           href={link}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-2 text-sm text-primary underline-offset-4 hover:underline"
+                          className="flex items-center gap-2 text-base text-primary underline-offset-4 hover:underline"
                         >
                           <LinkIcon className="size-4 shrink-0" />
                           <span className="truncate">{link}</span>
@@ -221,7 +221,7 @@ export function TaskDialog({
                           href={file}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-2 text-sm text-foreground underline-offset-4 hover:underline"
+                          className="flex items-center gap-2 text-base text-foreground underline-offset-4 hover:underline"
                         >
                           <FileIcon className="size-4 shrink-0 text-muted-foreground" />
                           <span className="truncate">{file.split("/").pop() ?? file}</span>
@@ -234,7 +234,7 @@ export function TaskDialog({
                 <Separator />
 
                 {solved && (
-                  <p className="flex items-center gap-2 text-sm text-primary">
+                  <p className="flex items-center gap-2 text-base text-primary">
                     <CheckCircle2Icon className="size-4" />
                     Таск решён — но флаг можно сдать ещё раз
                   </p>
@@ -269,7 +269,7 @@ export function TaskDialog({
 
               <TabsContent value="solvers">
                 {task.solvers.length === 0 ? (
-                  <p className="py-6 text-center text-sm text-muted-foreground">
+                  <p className="py-6 text-center text-base text-muted-foreground">
                     Этот таск ещё никто не решил. Будьте первым!
                   </p>
                 ) : (
@@ -277,10 +277,10 @@ export function TaskDialog({
                     {task.solvers.map((solver, index) => (
                       <li
                         key={`${solver.username}-${solver.solvedAt}`}
-                        className="flex items-center justify-between gap-2 rounded-md px-3 py-2 text-sm odd:bg-muted/50"
+                        className="flex items-center justify-between gap-2 rounded-md px-3 py-2 text-base odd:bg-muted/50"
                       >
                         <span className="flex items-center gap-2">
-                          <span className="w-6 font-mono text-xs text-muted-foreground">
+                          <span className="w-6 font-mono text-sm text-muted-foreground">
                             {index + 1}.
                           </span>
                           <span className="font-mono">{solver.username}</span>
@@ -292,7 +292,7 @@ export function TaskDialog({
                         </span>
                         <time
                           dateTime={solver.solvedAt}
-                          className="shrink-0 text-xs text-muted-foreground"
+                          className="shrink-0 text-sm text-muted-foreground"
                         >
                           {new Date(solver.solvedAt).toLocaleString("ru-RU", {
                             day: "2-digit",

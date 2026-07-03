@@ -7,7 +7,13 @@ import { FlagIcon, LogOutIcon, UserIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
-export async function SiteHeader({ username }: { username?: string | null }) {
+export function SiteHeader({
+  username,
+  role,
+}: {
+  username?: string | null
+  role?: string | null
+}) {
   const pathname = usePathname()
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur">
@@ -45,15 +51,17 @@ export async function SiteHeader({ username }: { username?: string | null }) {
             >
               Профиль
             </Link>
-            <Link
-              href="/admin"
-              className={cn(
-                "rounded-md px-3 py-1.5 text-sm transition-colors hover:text-foreground",
-                pathname === "/admin" ? "text-foreground" : "text-muted-foreground",
-              )}
-            >
-              Админ
-            </Link>
+            {role === "ADMIN" && (
+              <Link
+                href="/admin"
+                className={cn(
+                  "rounded-md px-3 py-1.5 text-sm transition-colors hover:text-foreground",
+                  pathname === "/admin" ? "text-foreground" : "text-muted-foreground",
+                )}
+              >
+                Админ
+              </Link>
+            )}
           </nav>
         </div>
         <div className="flex items-center gap-2">

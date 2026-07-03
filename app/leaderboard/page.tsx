@@ -53,7 +53,7 @@ export default async function LeaderboardPage() {
 
   return (
     <>
-      <SiteHeader username={session.user.username} />
+      <SiteHeader username={session.user.username} role={session.user.role} />
       <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8">
         <div className="mb-8 flex flex-col gap-1">
           <h1 className="font-mono text-2xl font-semibold text-balance">Лидерборд</h1>

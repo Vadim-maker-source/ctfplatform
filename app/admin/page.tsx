@@ -87,7 +87,7 @@ export default async function AdminPage() {
 
   return (
     <div className="flex min-h-svh flex-col">
-      <SiteHeader />
+      <SiteHeader username={session.user.username} role={session.user.role} />
       <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8">
         <div className="mb-6 flex flex-col gap-1">
           <h1 className="font-mono text-2xl font-bold text-foreground">
