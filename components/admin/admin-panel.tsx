@@ -4,6 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { UsersActivity } from "@/components/admin/users-activity"
 import { AttemptsTable } from "@/components/admin/attempts-table"
 import { CreateTaskForm } from "@/components/admin/create-task-form"
+import { TasksManager, type AdminTask } from "@/components/admin/tasks-manager"
 
 export interface AdminUser {
   id: string
@@ -32,15 +33,18 @@ export interface AdminAttempt {
 export function AdminPanel({
   users,
   attempts,
+  tasks,
 }: {
   users: AdminUser[]
   attempts: AdminAttempt[]
+  tasks: AdminTask[]
 }) {
   return (
     <Tabs defaultValue="users">
       <TabsList>
         <TabsTrigger value="users">Пользователи</TabsTrigger>
         <TabsTrigger value="attempts">Попытки</TabsTrigger>
+        <TabsTrigger value="tasks">Таски</TabsTrigger>
         <TabsTrigger value="create">Добавить таск</TabsTrigger>
       </TabsList>
       <TabsContent value="users">
@@ -48,6 +52,9 @@ export function AdminPanel({
       </TabsContent>
       <TabsContent value="attempts">
         <AttemptsTable attempts={attempts} />
+      </TabsContent>
+      <TabsContent value="tasks">
+        <TasksManager tasks={tasks} />
       </TabsContent>
       <TabsContent value="create">
         <CreateTaskForm />

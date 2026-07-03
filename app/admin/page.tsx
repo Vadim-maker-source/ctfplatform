@@ -18,7 +18,7 @@ export default async function AdminPage() {
     redirect("/board")
   }
 
-  const [users, attempts] = await Promise.all([
+  const [users, attempts, tasks] = await Promise.all([
     prisma.user.findMany({
       orderBy: { createdAt: "desc" },
       select: {
@@ -51,6 +51,22 @@ export default async function AdminPage() {
         task: { select: { id: true, title: true, category: true } },
       },
     }),
+    prisma.tasks.findMany({
+      orderBy: { createdAt: "desc" },
+      select: {
+        id: true,
+        title: true,
+        description: true,
+        category: true,
+        links: true,
+        files: true,
+        hints: true,
+        points: true,
+        author: true,
+        createdAt: true,
+        _count: { select: { solves: true } },
+      },
+    }),
   ])
 
   const serializedUsers = users.map((u) => ({
@@ -62,6 +78,11 @@ export default async function AdminPage() {
   const serializedAttempts = attempts.map((a) => ({
     ...a,
     createdAt: a.createdAt.toISOString(),
+  }))
+
+  const serializedTasks = tasks.map((t) => ({
+    ...t,
+    createdAt: t.createdAt.toISOString(),
   }))
 
   return (
@@ -76,7 +97,7 @@ export default async function AdminPage() {
             Активность пользователей, попытки сдачи и управление тасками
           </p>
         </div>
-        <AdminPanel users={serializedUsers} attempts={serializedAttempts} />
+        <AdminPanel users={serializedUsers} attempts={serializedAttempts} tasks={serializedTasks} />
       </main>
     </div>
   )
