@@ -23,10 +23,20 @@ export default async function BoardPage() {
         id: true,
         title: true,
         description: true,
+        category: true,
+        points: true,
         links: true,
         files: true,
+        hints: true,
         author: true,
         _count: { select: { solves: true } },
+        solves: {
+          select: {
+            createdAt: true,
+            user: { select: { username: true } },
+          },
+          orderBy: { createdAt: "asc" },
+        },
       },
       orderBy: { title: "asc" },
     }),
@@ -56,10 +66,17 @@ export default async function BoardPage() {
             id: t.id,
             title: t.title,
             description: t.description,
+            category: t.category,
+            points: t.points,
             links: t.links,
             files: t.files,
+            hints: t.hints,
             author: t.author,
             solveCount: t._count.solves,
+            solvers: t.solves.map((s) => ({
+              username: s.user.username,
+              solvedAt: s.createdAt.toISOString(),
+            })),
           }))}
           solvedIds={solvedIds}
         />

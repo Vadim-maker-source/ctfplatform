@@ -33,10 +33,6 @@ export async function POST(
       },
     })
 
-    if (alreadySolved) {
-      return NextResponse.json({ error: "Вы уже решили этот таск" }, { status: 409 })
-    }
-
     const submittedFlag = body.flag.trim()
     const correct = submittedFlag === task.flag
 
@@ -53,14 +49,18 @@ export async function POST(
       return NextResponse.json({ error: "Неверный флаг" }, { status: 400 })
     }
 
-    await prisma.solves.create({
-      data: {
-        taskId: id,
-        userId: session.user.id,
-      },
-    })
+    // Флаг верный: засчитываем решение только один раз,
+    // но повторная сдача разрешена и тоже отвечает успехом.
+    if (!alreadySolved) {
+      await prisma.solves.create({
+        data: {
+          taskId: id,
+          userId: session.user.id,
+        },
+      })
+    }
 
-    return NextResponse.json({ ok: true })
+    return NextResponse.json({ ok: true, alreadySolved: Boolean(alreadySolved) })
   } catch (error) {
     console.error("Solve error:", error)
     return NextResponse.json({ error: "Внутренняя ошибка сервера" }, { status: 500 })

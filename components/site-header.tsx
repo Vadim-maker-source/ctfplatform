@@ -29,6 +29,15 @@ export function SiteHeader({ username }: { username?: string | null }) {
               Таски
             </Link>
             <Link
+              href="/leaderboard"
+              className={cn(
+                "rounded-md px-3 py-1.5 text-sm transition-colors hover:text-foreground",
+                pathname === "/leaderboard" ? "text-foreground" : "text-muted-foreground",
+              )}
+            >
+              Лидерборд
+            </Link>
+            <Link
               href="/profile"
               className={cn(
                 "rounded-md px-3 py-1.5 text-sm transition-colors hover:text-foreground",
